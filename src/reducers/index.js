@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import {reducer as formReducer} from 'redux-form';
-import PostsReducer from './reducer_posts';
+import LibraryReducer from './reducer_libraries';
 const rootReducer = combineReducers({
- posts:PostsReducer,
+ library:LibraryReducer,
  form:formReducer
 });
 

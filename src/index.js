@@ -6,9 +6,9 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import promise from 'redux-promise';
 import {Provider} from 'react-redux';
 import reducers from './reducers';
-import PostsIndex from './components/posts_index';
-import PostsNew from './components/posts_new';
-import PostsShow from './components/posts_show';
+import MainIndex from './components/main_index';
+import CreateNew from './components/create_new';
+import DetailShow from './components/detail_show';
 import registerServiceWorker from './registerServiceWorker';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -22,9 +22,9 @@ ReactDOM.render(
   <BrowserRouter>
     <div>
       <Switch>
-    <Route path="/posts/new" component={PostsNew}/>
-    <Route path="/posts/:id" component={PostsShow}/>
-    <Route path="/" component={PostsIndex}/>
+    <Route path="/create" component={CreateNew}/>
+    <Route path="/detail/:id" component={DetailShow}/>
+    <Route path="/" component={MainIndex}/>
       </Switch>
     </div>
     </BrowserRouter>

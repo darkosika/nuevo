@@ -1,20 +1,20 @@
 import React,{Component} from 'react';
-import {fetchPosts} from '../actions';
+import {fetchLibraries} from '../actions';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
-class PostsIndex extends Component{
+class MainIndex extends Component{
     componentDidMount(){
-        this.props.fetchPosts();
+        this.props.fetchLibraries();
     }
     renderPosts(){
-    return  _.map(this.props.posts, post =>{
+    return  _.map(this.props.library, book =>{
         
            return(
              
-               <li className="list-group-item" key={post.id}>
-               <Link to={`/posts/${post.id}`}>
-                    {post.title}
+               <li className="list-group-item" key={book.id}>
+               <Link to={`/detail/${book.id}`}>
+                    {book.title}
                </Link>
                </li>
            );
@@ -25,9 +25,9 @@ class PostsIndex extends Component{
         return(
             <div>
                 <div className="text-xs-right">
-                <Link className="btn btn-primary" to="/posts/new">ADD POST</Link>
+                <Link className="btn btn-primary" to="/create">ADD BOOK</Link>
                 </div>
-                <h3>Posts</h3>
+                <h3>Books</h3>
                 <ul className="list-group">
                     {this.renderPosts()}
                 </ul>
@@ -36,6 +36,6 @@ class PostsIndex extends Component{
     }
 }
 function mapStateToProps(state){
-    return {posts:state.posts};
+    return {library:state.library};
 }
-export default connect(mapStateToProps,{fetchPosts})(PostsIndex);
+export default connect(mapStateToProps,{fetchLibraries})(MainIndex);

@@ -2,9 +2,9 @@ import React,{Component} from 'react';
 import {Field,reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {createPost} from '../actions';
+import {createBook} from '../actions';
 //field.meta.touched
-class PostsNew extends Component{
+class CreateNew extends Component{
     renderField(field){
         const {meta:{touched,error} }=field;
         const className=`form-group ${touched && error ? 'has-danger': ''}`
@@ -22,7 +22,7 @@ class PostsNew extends Component{
         );
     }
     onSubmit(values){
-        this.props.createPost(values, ()=> {
+        this.props.createBook(values, ()=> {
             this.props.history.push('/');
         });
     }
@@ -37,8 +37,8 @@ class PostsNew extends Component{
                 component={this.renderField}
                 />
                   <Field
-                label="Categories"
-                name="categories"
+                label="Author"
+                name="author"
                 component={this.renderField}
                 /> 
                   <Field
@@ -57,8 +57,8 @@ function validate(values){
     if(!values.title){
         errors.title="Enter Title!"
     }
-    if(!values.categories){
-        errors.categories="Enter Content!"
+    if(!values.author){
+        errors.author="Enter Author!"
     }
     if(!values.content){
         errors.content="Enter Content!"
@@ -67,7 +67,7 @@ function validate(values){
 }
 export default reduxForm({
     validate,
-    form:'PostNewForm'
+    form:'LibraryNewForm'
 }) (
-    connect(null,{createPost}) (PostsNew)
+    connect(null,{createBook}) (CreateNew)
     );
