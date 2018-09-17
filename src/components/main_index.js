@@ -8,9 +8,15 @@ class MainIndex extends Component{
         super(props);
         this.state = {
           data:  [],
-          value: ''
+          value: '',
+          filter:''
         };
       }
+      setLibrary(event) {
+        console.log(event.target.value);
+        this.setState({filter:event.target.value})
+      }
+      
       handleChange = event => {
         const { value } = event.target;
         this.setState({ value });
@@ -28,6 +34,11 @@ class MainIndex extends Component{
                 <div className="text-xs-right">
                 <Link className="btn btn-primary" to="/create">ADD BOOK</Link>
                 </div>
+                <div onChange={this.setLibrary.bind(this)}>
+        <input type="radio" value="BOOK" name="library"/> BOOK
+        <input type="radio" value="AUTHOR" name="library"/> AUTHOR
+        <input type="radio" value="PUBLISH" name="library"/> PUBLISH
+      </div>
                 <h3>Books</h3>
                 <div>
         <input type="text" value={value} onChange={this.handleChange} />
@@ -40,7 +51,7 @@ class MainIndex extends Component{
                     <ul className="list-group" key={el.id}>
                     <li className="list-group-item" key={el.id}>
                <Link to={`/detail/${el.id}`}>
-                    {el.title}
+               {this.state.filter==="PUBLISH" ? el.publisher: this.state.filter==="AUTHOR" ? el.author:el.title}
                </Link>
                </li>
                   </ul>

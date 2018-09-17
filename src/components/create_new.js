@@ -46,6 +46,11 @@ class CreateNew extends Component{
                 name="content"
                 component={this.renderField}
                 />
+                  <Field
+                label="Publisher"
+                name="publisher"
+                component={this.renderField}
+                />
                 <button type="Submit" className="btn btn-primary">Submit</button>
                 <Link to="/" className="btn btn-danger">Cancel</Link>
             </form>
@@ -62,6 +67,9 @@ function validate(values){
     }
     if(!values.content){
         errors.content="Enter Content!"
+    }
+    if(!values.publisher){
+        errors.publisher="Enter Publisher!"
     }
     return errors;
 }
