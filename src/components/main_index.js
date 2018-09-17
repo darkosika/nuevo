@@ -1,41 +1,56 @@
 import React,{Component} from 'react';
 import {fetchLibraries} from '../actions';
 import {connect} from 'react-redux';
-import _ from 'lodash';
 import {Link} from 'react-router-dom';
+import SearchResults from 'react-filter-search';
 class MainIndex extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+          data:  [],
+          value: ''
+        };
+      }
+      handleChange = event => {
+        const { value } = event.target;
+        this.setState({ value });
+      };
     componentDidMount(){
         this.props.fetchLibraries();
+        fetch('http://5b9e41b1133f660014c91950.mockapi.io/library')
+        .then(response => response.json())
+        .then(json => this.setState({ data: json }));
     }
-    renderPosts(){
-    return  _.map(this.props.library, book =>{
-        
-           return(
-             
-               <li className="list-group-item" key={book.id}>
-               <Link to={`/detail/${book.id}`}>
-                    {book.title}
-               </Link>
-               </li>
-           );
-       });  
-    }
-
     render(){
+        const { data, value } = this.state;
         return(
             <div>
                 <div className="text-xs-right">
                 <Link className="btn btn-primary" to="/create">ADD BOOK</Link>
                 </div>
                 <h3>Books</h3>
-                <ul className="list-group">
-                    {this.renderPosts()}
-                </ul>
+                <div>
+        <input type="text" value={value} onChange={this.handleChange} />
+        <SearchResults
+          value={value}
+          data={data}
+          renderResults={results => (
+            <div>
+              {results.map(el => (
+                    <ul className="list-group" key={el.id}>
+                    <li className="list-group-item" key={el.id}>
+               <Link to={`/detail/${el.id}`}>
+                    {el.title}
+               </Link>
+               </li>
+                  </ul>
+              ))}
+            </div>
+          )}
+        />
+      </div>
             </div>
         );
     }
 }
-function mapStateToProps(state){
-    return {library:state.library};
-}
-export default connect(mapStateToProps,{fetchLibraries})(MainIndex);
+export default connect(null,{fetchLibraries})(MainIndex);

@@ -9,6 +9,7 @@ import reducers from './reducers';
 import MainIndex from './components/main_index';
 import CreateNew from './components/create_new';
 import DetailShow from './components/detail_show';
+import Search from './components/search';
 import registerServiceWorker from './registerServiceWorker';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,6 +25,7 @@ ReactDOM.render(
       <Switch>
     <Route path="/create" component={CreateNew}/>
     <Route path="/detail/:id" component={DetailShow}/>
+    <Route path="/search" component={Search}/>
     <Route path="/" component={MainIndex}/>
       </Switch>
     </div>
