@@ -3,20 +3,27 @@ import {fetchLibraries} from '../actions';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import SearchResults from 'react-filter-search';
-class MainIndex extends Component{
+import Pagination from "react-js-pagination";
+class Mainindex extends Component{
     constructor(props) {
         super(props);
         this.state = {
           data:  [],
           value: '',
-          filter:''
+          filter:'',
+          activePage:1,
+          perpage: 3
         };
       }
+      
       setLibrary(event) {
         console.log(event.target.value);
         this.setState({filter:event.target.value})
       }
-      
+      handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({activePage: pageNumber});
+      }
       handleChange = event => {
         const { value } = event.target;
         this.setState({ value });
@@ -28,7 +35,10 @@ class MainIndex extends Component{
         .then(json => this.setState({ data: json }));
     }
     render(){
-        const { data, value } = this.state;
+      const { data, value,activePage,perpage } = this.state;
+      const indexOfLastData = activePage * perpage;
+      const indexOfFirstData = indexOfLastData - perpage;
+      const currentData = data.slice(indexOfFirstData, indexOfLastData);
         return(
             <div>
                 <div className="text-xs-right">
@@ -42,11 +52,14 @@ class MainIndex extends Component{
                 <h3>Books</h3>
                 <div>
         <input type="text" value={value} onChange={this.handleChange} />
+        
         <SearchResults
           value={value}
-          data={data}
+          data={currentData}
+          
           renderResults={results => (
             <div>
+               
               {results.map(el => (
                     <ul className="list-group" key={el.id}>
                     <li className="list-group-item" key={el.id}>
@@ -59,9 +72,18 @@ class MainIndex extends Component{
             </div>
           )}
         />
+         <div>
+            <Pagination
+              activePage={this.state.activePage}
+              itemsCountPerPage={2}
+              totalItemsCount={50}
+              pageRangeDisplayed={3}
+              onChange={this.handlePageChange.bind(this)}
+            />
+          </div>
       </div>
             </div>
         );
     }
 }
-export default connect(null,{fetchLibraries})(MainIndex);
+export default connect(null,{fetchLibraries})(Mainindex);
