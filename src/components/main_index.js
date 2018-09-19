@@ -38,29 +38,23 @@ class Mainindex extends Component{
       const { data, value,activePage,perpage } = this.state;
       const indexOfLastData = activePage * perpage;
       const indexOfFirstData = indexOfLastData - perpage;
-      const currentData = data.slice(indexOfFirstData, indexOfLastData);
         return(
             <div>
-                <div className="text-xs-right">
-                <Link className="btn btn-primary" to="/create">ADD BOOK</Link>
-                </div>
-                <div onChange={this.setLibrary.bind(this)}>
-        <input type="radio" value="BOOK" name="library"/> BOOK
-        <input type="radio" value="AUTHOR" name="library"/> AUTHOR
-        <input type="radio" value="PUBLISH" name="library"/> PUBLISH
-      </div>
                 <h3>Books</h3>
-                <div>
-        <input type="text" value={value} onChange={this.handleChange} />
-        
+                <div> 
+          <input type="text" value={value} onChange={this.handleChange} />
+        <div onChange={this.setLibrary.bind(this)}>
+          <input type="radio" value="BOOK" name="library"/> BOOK
+          <input type="radio" value="AUTHOR" name="library"/> AUTHOR
+          <input type="radio" value="PUBLISH" name="library"/> PUBLISH
+        </div>
         <SearchResults
           value={value}
-          data={currentData}
-          
+          data={data}
           renderResults={results => (
             <div>
                
-              {results.map(el => (
+              {results.slice(indexOfFirstData, indexOfLastData).map(el => (
                     <ul className="list-group" key={el.id}>
                     <li className="list-group-item" key={el.id}>
                <Link to={`/detail/${el.id}`}>
@@ -77,11 +71,14 @@ class Mainindex extends Component{
               activePage={this.state.activePage}
               itemsCountPerPage={2}
               totalItemsCount={50}
-              pageRangeDisplayed={3}
+              pageRangeDisplayed={10}
               onChange={this.handlePageChange.bind(this)}
             />
           </div>
       </div>
+      <div className="text-xs-right">
+                <Link className="btn btn-primary" to="/create">ADD BOOK</Link>
+                </div>
             </div>
         );
     }
